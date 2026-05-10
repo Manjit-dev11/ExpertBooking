@@ -72,6 +72,14 @@ Here is a glimpse of the premium interface and user flows:
   </table>
 </div>
 
+## 📱 Download
+
+<div align="center">
+  <a href="./Booking System APP.apk">
+    <img src="https://img.shields.io/badge/Download-Android%20APK-000926?style=for-the-badge&logo=android&logoColor=white" alt="Download Android APK" />
+  </a>
+  <p><i>Direct link to the production build for Android devices.</i></p>
+</div>
 ---
 
 ## ⚡ Getting Started
