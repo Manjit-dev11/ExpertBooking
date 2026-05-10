@@ -14,6 +14,10 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  tls: {
+    rejectUnauthorized: false // Helps avoid SSL issues on some cloud providers
+  },
+  family: 4 // Force IPv4. This is the ultimate fix for the ESOCKET 2404:6800... error
 });
 
 /**
