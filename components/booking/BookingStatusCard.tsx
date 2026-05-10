@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { format } from 'date-fns'
 import { Feather } from '@expo/vector-icons'
+import Toast from 'react-native-toast-message'
 import GlassCard from '../ui/GlassCard'
 import Badge from '../ui/Badge'
 import { Booking } from '../../constants/mockData'
@@ -58,6 +59,11 @@ export default function BookingStatusCard({ booking }: BookingStatusCardProps) {
     try {
       await cancelBooking(booking._id)
       toggleExpand()
+      Toast.show({
+        type: 'success',
+        text1: 'Session Cancelled',
+        text2: 'Your session is cancelled successfully',
+      })
     } catch (e) {
       console.error(e)
     } finally {

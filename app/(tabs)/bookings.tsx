@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter } from 'expo-router'
+import { Feather } from '@expo/vector-icons'
 import GlassCard from '../../components/ui/GlassCard'
 import GradientButton from '../../components/ui/GradientButton'
 import BookingStatusCard from '../../components/booking/BookingStatusCard'
@@ -66,8 +67,21 @@ export default function BookingsScreen() {
           <View style={styles.headerSection}>
             {/* Page header */}
             <View style={styles.header}>
-              <Text style={styles.pageTitle}>My Bookings</Text>
-              <Text style={styles.pageSubtitle}>Track all your sessions</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.pageTitle}>My Bookings</Text>
+                <Text style={styles.pageSubtitle}>Track all your sessions</Text>
+              </View>
+              {email.trim() ? (
+                <Pressable
+                  onPress={handleFind}
+                  style={({ pressed }) => [
+                    styles.refreshBtn,
+                    { opacity: pressed ? 0.7 : 1 },
+                  ]}
+                >
+                  <Feather name="refresh-cw" size={20} color={Colors.text.primary} />
+                </Pressable>
+              ) : null}
             </View>
 
             {/* Email lookup */}
@@ -160,7 +174,17 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingTop: Spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     gap: 4,
+  },
+  refreshBtn: {
+    padding: Spacing.sm,
+    backgroundColor: Colors.bg.card,
+    borderRadius: Radius.full,
+    borderWidth: 1,
+    borderColor: Colors.border.default,
   },
   pageTitle: {
     color: Colors.text.primary,

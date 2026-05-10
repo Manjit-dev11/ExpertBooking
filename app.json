@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#080808"
-      }
+      },
+      "package": "com.manjit.dev.ExpertBooking"
     },
     "web": {
       "bundler": "metro",
@@ -29,6 +30,12 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "83cac9b3-0e66-4d57-96fe-7b8674982dae"
+      }
+    }
   }
 }
