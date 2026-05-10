@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
   tls: {
     rejectUnauthorized: false // Helps avoid SSL issues on some cloud providers
   },
-  family: 4 // Force IPv4. This is the ultimate fix for the ESOCKET 2404:6800... error
+  localAddress: '0.0.0.0' // STRICTLY forces IPv4 binding. The ultimate fix for ENETUNREACH IPv6 errors.
 });
 
 /**
