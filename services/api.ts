@@ -1,23 +1,30 @@
 import axios from 'axios'
-import { Platform } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 // Uses the API URL from your frontend .env file
-// Make sure to rebuild your app or restart the server after changing the .env file
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.7:5000/api'
+const API_URL = process.env.EXPO_PUBLIC_API_URL
 
 export const api = axios.create({
   baseURL: API_URL,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-// Optional: Add interceptors for auth tokens or global error logging
+// Only show "offline" when the device genuinely cannot reach the server
+// (no response at all). Do NOT show it for 4xx/5xx API errors.
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.message === 'Network Error' || error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED') {
+    const isNetworkFailure =
+      !error.response && // no HTTP response received
+      (error.message === 'Network Error' ||
+        error.code === 'ERR_NETWORK' ||
+        error.code === 'ECONNABORTED' ||
+        error.code === 'ETIMEDOUT')
+
+    if (isNetworkFailure) {
       Toast.show({
         type: 'error',
         text1: 'You are offline 📶',
@@ -30,3 +37,4 @@ api.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
