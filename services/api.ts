@@ -2,9 +2,9 @@ import axios from 'axios'
 import { Platform } from 'react-native'
 import Toast from 'react-native-toast-message'
 
-// Replace with your computer's IP address if testing on a physical device.
-// The default here uses the IP from your previous Expo Go logs.
-const API_URL = 'http://192.168.1.7:5000/api'
+// Uses the API URL from your frontend .env file
+// Make sure to rebuild your app or restart the server after changing the .env file
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.1.7:5000/api'
 
 export const api = axios.create({
   baseURL: API_URL,
