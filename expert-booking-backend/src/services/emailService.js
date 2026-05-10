@@ -16,9 +16,26 @@ const transporter = nodemailer.createTransport({
   },
   tls: {
     rejectUnauthorized: false // Helps avoid SSL issues on some cloud providers
-  },
-  localAddress: '0.0.0.0' // STRICTLY forces IPv4 binding. The ultimate fix for ENETUNREACH IPv6 errors.
+  }
 });
+
+// ULTIMATE FIX FOR WINDOWS/RAILWAY IPv6 TIMEOUTS:
+// Intercept the sendMail function to manually resolve and force the IPv4 address.
+const originalSendMail = transporter.sendMail.bind(transporter);
+transporter.sendMail = async function (mailOptions) {
+  try {
+    const hostname = process.env.SMTP_HOST || 'smtp.gmail.com';
+    // Manually resolve the hostname to strictly get an IPv4 address
+    const { address } = await dns.promises.lookup(hostname, { family: 4 });
+    // Tell Nodemailer to connect directly to the IPv4 address
+    transporter.options.host = address;
+    // Keep the SSL certificate valid by providing the original hostname
+    transporter.options.tls.servername = hostname;
+  } catch (err) {
+    console.warn('⚠️ Could not force IPv4 lookup, falling back to default:', err);
+  }
+  return originalSendMail(mailOptions);
+};
 
 /**
  * Send a booking confirmation email
