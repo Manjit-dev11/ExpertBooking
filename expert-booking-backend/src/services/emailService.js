@@ -5,37 +5,47 @@ const dns = require('dns');
 // when trying to connect to Gmail's IPv6 address (2404:...).
 dns.setDefaultResultOrder('ipv4first');
 
-// Configure the SMTP transport
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: process.env.SMTP_PORT || 587,
-  secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false // Helps avoid SSL issues on some cloud providers
-  }
-});
+let transporter = null;
 
-// ULTIMATE FIX FOR WINDOWS/RAILWAY IPv6 TIMEOUTS:
-// Intercept the sendMail function to manually resolve and force the IPv4 address.
-const originalSendMail = transporter.sendMail.bind(transporter);
-transporter.sendMail = async function (mailOptions) {
+async function getTransporter() {
+  if (transporter) return transporter;
+
   try {
     const hostname = process.env.SMTP_HOST || 'smtp.gmail.com';
-    // Manually resolve the hostname to strictly get an IPv4 address
+    // Manually resolve IPv4 to bypass Railway/Windows IPv6 issues
     const { address } = await dns.promises.lookup(hostname, { family: 4 });
-    // Tell Nodemailer to connect directly to the IPv4 address
-    transporter.options.host = address;
-    // Keep the SSL certificate valid by providing the original hostname
-    transporter.options.tls.servername = hostname;
+    
+    transporter = nodemailer.createTransport({
+      host: address,
+      // FORCE Port 587 and secure false, because Port 465 is often blocked by cloud firewalls
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      tls: {
+        servername: hostname, // Keep SSL certificate valid
+        rejectUnauthorized: false
+      }
+    });
+    
+    return transporter;
   } catch (err) {
-    console.warn('⚠️ Could not force IPv4 lookup, falling back to default:', err);
+    console.error('⚠️ Could not resolve SMTP host, falling back to default config:', err);
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      tls: { rejectUnauthorized: false }
+    });
+    return transporter;
   }
-  return originalSendMail(mailOptions);
-};
+}
 
 /**
  * Send a booking confirmation email
@@ -68,7 +78,8 @@ exports.sendBookingConfirmationEmail = async (booking, expertName) => {
       </div>
     `;
 
-    const info = await transporter.sendMail({
+    const tp = await getTransporter();
+    const info = await tp.sendMail({
       from: `"ExpertBooking" <${process.env.SMTP_USER}>`,
       to: booking.userEmail,
       subject: `Booking Confirmed: Session with ${expertName}`,
@@ -112,7 +123,8 @@ exports.sendBookingCancellationEmail = async (booking, expertName) => {
       </div>
     `;
 
-    const info = await transporter.sendMail({
+    const tp = await getTransporter();
+    const info = await tp.sendMail({
       from: `"ExpertBooking" <${process.env.SMTP_USER}>`,
       to: booking.userEmail,
       subject: `Booking Cancelled: Session with ${expertName}`,
