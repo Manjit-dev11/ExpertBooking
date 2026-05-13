@@ -91,7 +91,7 @@ Here is a glimpse of the premium interface and user flows:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/ExpertBooking.git
+git clone https://github.com/Manjit-dev11/ExpertBooking.git
 cd ExpertBooking
 ```
 
@@ -100,7 +100,6 @@ cd ExpertBooking
 cd expert-booking-backend
 npm install
 
-# Copy .env.example to .env and fill in your MongoDB URI
 cp .env.example .env
 
 # Start the server
