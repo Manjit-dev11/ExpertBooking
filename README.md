@@ -58,16 +58,16 @@ Here is a glimpse of the premium interface and user flows:
 <div align="center">
   <table>
     <tr>
-      <td align="center"><img src="photos/img1.jpeg" width="220" alt="Screen 1" style="border-radius:12px;"/><br/><b>Splash & Onboarding</b></td>
-      <td align="center"><img src="photos/img2.jpeg" width="220" alt="Screen 2" style="border-radius:12px;"/><br/><b>Home Discovery</b></td>
-      <td align="center"><img src="photos/img3.jpeg" width="220" alt="Screen 3" style="border-radius:12px;"/><br/><b>Expert Details</b></td>
-      <td align="center"><img src="photos/img4.jpeg" width="220" alt="Screen 4" style="border-radius:12px;"/><br/><b>Booking Flow</b></td>
+      <td align="center"><img src="photos/img1.jpeg" width="220" alt="Screen 1" style="border-radius:12px;"/></td>
+      <td align="center"><img src="photos/img2.jpeg" width="220" alt="Screen 2" style="border-radius:12px;"/></td>
+      <td align="center"><img src="photos/img3.jpeg" width="220" alt="Screen 3" style="border-radius:12px;"/></td>
+      <td align="center"><img src="photos/img4.jpeg" width="220" alt="Screen 4" style="border-radius:12px;"/></td>
     </tr>
     <tr>
-      <td align="center"><img src="photos/img5.jpeg" width="220" alt="Screen 5" style="border-radius:12px;"/><br/><b>Category Filters</b></td>
-      <td align="center"><img src="photos/img6.jpeg" width="220" alt="Screen 6" style="border-radius:12px;"/><br/><b>Real-time Slots</b></td>
-      <td align="center"><img src="photos/img7.jpeg" width="220" alt="Screen 7" style="border-radius:12px;"/><br/><b>Search Functionality</b></td>
-      <td align="center"><img src="photos/img8.jpeg" width="220" alt="Screen 8" style="border-radius:12px;"/><br/><b>Success State</b></td>
+      <td align="center"><img src="photos/img5.jpeg" width="220" alt="Screen 5" style="border-radius:12px;"/></td>
+      <td align="center"><img src="photos/img6.jpeg" width="220" alt="Screen 6" style="border-radius:12px;"/></td>
+      <td align="center"><img src="photos/img7.jpeg" width="220" alt="Screen 7" style="border-radius:12px;"/></td>
+      <td align="center"><img src="photos/img8.jpeg" width="220" alt="Screen 8" style="border-radius:12px;"/></td>
     </tr>
   </table>
 </div>
